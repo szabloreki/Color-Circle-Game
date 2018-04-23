@@ -1,57 +1,142 @@
 <html>
+
 <head>
-<style>
-.div1 {
+    <style>
+        .div1 {
+            background-color: yellow;
+            margin: 0 auto;
+            text-align: center;
+            width: 500px;
+            height: 500px;
+        }
 
-    background-color: yellow;
-    margin: 0 auto;
-    text-align: center;
-     width: 500px;
-    height: 500px;
-    }
-    .render {
-      
-    }
-        
-</style>
-    
+        .render {}
+    </style>
+
 </head>
-    
-<body>
-    
-<div class="div1"><canvas width="500" height="500" class="render"></canvas></div>
-    
-<script>
-    
-const render = document.querySelector('.render').getContext('2d')
-render.width = 500;
-render.height = 500;
-render.fillStyle  ='red';
 
-    row = 10;
-    tileX = 0;
-    tileY = 0;
-    
-    function gameLoop(){
-            for(var i = 0; i<= 10; i++){
-                for( var j = 0; j<= 10; j++){
+<body>
+
+    <div class="div1">
+        <canvas width="500" height="500" class="render"></canvas>
+    </div>
+
+    <script>
+        const render = document.querySelector('.render').getContext('2d')
+        render.width = 500;
+        render.height = 500;
+        render.fillStyle = 'red';
+
+        row = 10;
+        tileX = 0;
+        tileY = 0;
+
+        player = {
+            color: ['green', 'yellow', 'red', 'blue', 'purple', 'brown'],
+            playerFill: 'green',
+            playerPosX: 25,
+            playerPosY: 25
+        }
+
+        winObject = {
+            color: 'green',
+            posX: 450,
+            posY: 450
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowDown') {
+                player.playerPosY += 50;
+                this.nextColorPlayer()
+            }
+            if (event.key === 'ArrowUp') {
+                player.playerPosY -= 50;
+                this.nextColorPlayer()
+
+            }
+            if (event.key === 'ArrowRight') {
+                player.playerPosX += 50;
+                this.nextColorPlayer()
+
+            }
+            if (event.key === 'ArrowLeft') {
+                player.playerPosX -= 50;
+                this.nextColorPlayer()
+
+            }
+        })
+
+        function nextColorPlayer() {
+            let nextColor = player.color.indexOf(player.playerFill)
+            if (nextColor < player.color.length - 1) {
+                nextColor++;
+            } else {
+                nextColor = 0;
+            }
+            player.playerFill = player.color[nextColor];
+            this.update()
+        }
+
+
+
+        function update() {
+            // alert('wygrana')
+            if (player.playerPosX < winObject.posX + 50
+                && player.playerPosX > winObject.posX) {
+
+                if (player.playerPosY < winObject.posY 
+                && player.playerPosY > winObject.posY - 50 ) {
+                        alert('Wygrana')
+                    }
+
+            }
+            console.log(winObject.posY, player.playerPosY)
+        }
+
+        function gameLoop() {
+
+            render.beginPath()
+            render.fillStyle = 'grey'
+            render.fillRect(0, 0, 500, 500)
+
+            for (var i = 0; i <= row; i++) {
+                for (var j = 0; j <= row; j++) {
                     tileX += 50;
                     render.fillStyle = 'grey'
-                    render.fillRect(tileX - 50, tileY,50,50)
-                    }
+                    render.fillRect(tileX - 50, tileY, 50, 50)
+
+                    render.fillStyle = 'black'
+                    render.fillRect(tileX - 50, tileY, 1, 500)
+                    render.fillStyle = 'black'
+                    render.fillRect(0, tileY, 500, 1)
+                }
+                tileX = 0;
                 tileY += 50;
-                console.log(tileY, 'y')
             }
-         
-//            window.requestAnimationFrame(this.gameLoop)
-    }
-    function draw(x, y, width, height, color){
-          render.fillStyle = color;
-          render.fillRect(x, y, width, height)
-    }
-    
-    window.requestAnimationFrame(this.gameLoop)
-    
-</script>    
+
+            render.fillStyle = winObject.color;
+            render.fillRect(winObject.posX, winObject.posY, 50, 50)
+
+            render.fillStyle = player.playerFill;
+            render.arc(player.playerPosX, player.playerPosY, 25, 0, 2 * Math.PI);
+            render.fill()
+
+            tileX = 0;
+            tileY = 0;
+
+            window.requestAnimationFrame(this.gameLoop)
+        }
+
+
+
+
+        function draw(x, y, width, height, color) {
+            render.fillStyle = color;
+            render.fillRect(x, y, width, height)
+        }
+
+        window.requestAnimationFrame(this.gameLoop)
+    </script>
 </body>
+
 </html>
