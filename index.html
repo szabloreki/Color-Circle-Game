@@ -3,7 +3,7 @@
 <style>
 .div1 {
 
-    background-color: green;
+    background-color: yellow;
     margin: 0 auto;
     text-align: center;
      width: 500px;
@@ -26,54 +26,25 @@
 const render = document.querySelector('.render').getContext('2d')
 render.width = 500;
 render.height = 500;
-console.log(render);
-    
-    render.fillStyle  ='blue';
-    let x = 10;
-    let y = 10;
-    let speedX = 40;
-    let speedY = 3;
-    let width = 50;
-    let height = 50
-    render.fillRect(x,y,width,height)
+render.fillStyle  ='red';
+
+    row = 10;
+    tileX = 0;
+    tileY = 0;
     
     function gameLoop(){
-            this.draw(0,0,500,500, 'black')
-            this.draw(x,y,width,height, 'green')
-            window.requestAnimationFrame(this.gameLoop)
-            this.update()
+            for(var i = 0; i<= 10; i++){
+                for( var j = 0; j<= 10; j++){
+                    tileX += 50;
+                    render.fillStyle = 'grey'
+                    render.fillRect(tileX - 50, tileY,50,50)
+                    }
+                tileY += 50;
+                console.log(tileY, 'y')
+            }
+         
+//            window.requestAnimationFrame(this.gameLoop)
     }
-    
-    function update(){
-        if(x + width>= 500){
-            console.log('-----------------------------------------------------------------------', 'speedX', speedX)
-            speedX = - speedX;
-        } if( x  <= 0 ){
-            speedX = - speedX;
-        }
-        
-//        if(y + height >= 500){
-//            speedY = -speedY;
-//        }
-//        
-//        if(y <= 0){
-//            speedY = -speedY;
-//        }
-//        
-
-//        y += speedY;
-        x += speedX;
-        console.log(x)
-    }
-    
-    function getRandomArbitrary(speedX) {
-        return Math.random() * ( 5 - 2) + 2;
-    }
-    
-    
-    
-            
-        
     function draw(x, y, width, height, color){
           render.fillStyle = color;
           render.fillRect(x, y, width, height)
