@@ -1,0 +1,86 @@
+<html>
+<head>
+<style>
+.div1 {
+
+    background-color: green;
+    margin: 0 auto;
+    text-align: center;
+     width: 500px;
+    height: 500px;
+    }
+    .render {
+      
+    }
+        
+</style>
+    
+</head>
+    
+<body>
+    
+<div class="div1"><canvas width="500" height="500" class="render"></canvas></div>
+    
+<script>
+    
+const render = document.querySelector('.render').getContext('2d')
+render.width = 500;
+render.height = 500;
+console.log(render);
+    
+    render.fillStyle  ='blue';
+    let x = 10;
+    let y = 10;
+    let speedX = 40;
+    let speedY = 3;
+    let width = 50;
+    let height = 50
+    render.fillRect(x,y,width,height)
+    
+    function gameLoop(){
+            this.draw(0,0,500,500, 'black')
+            this.draw(x,y,width,height, 'green')
+            window.requestAnimationFrame(this.gameLoop)
+            this.update()
+    }
+    
+    function update(){
+        if(x + width>= 500){
+            console.log('-----------------------------------------------------------------------', 'speedX', speedX)
+            speedX = - speedX;
+        } if( x  <= 0 ){
+            speedX = - speedX;
+        }
+        
+//        if(y + height >= 500){
+//            speedY = -speedY;
+//        }
+//        
+//        if(y <= 0){
+//            speedY = -speedY;
+//        }
+//        
+
+//        y += speedY;
+        x += speedX;
+        console.log(x)
+    }
+    
+    function getRandomArbitrary(speedX) {
+        return Math.random() * ( 5 - 2) + 2;
+    }
+    
+    
+    
+            
+        
+    function draw(x, y, width, height, color){
+          render.fillStyle = color;
+          render.fillRect(x, y, width, height)
+    }
+    
+    window.requestAnimationFrame(this.gameLoop)
+    
+</script>    
+</body>
+</html>
